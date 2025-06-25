@@ -1,0 +1,21 @@
+---
+apiVersion: projectcalico.org/v3
+kind: GlobalNetworkPolicy
+metadata:
+  name: sos-public-ingress-allow-sosscanning
+  annotations:
+    description: policy to allow sos tenable nessus scanning
+spec:
+  applyOnForward: true
+  ingress:
+    - action: Allow
+      destination: {}
+      source:
+        nets:
+          - 158.177.140.160/27
+          - 169.55.9.224/27
+  order: 2025
+  preDNAT: true
+  selector: ibm.role in { 'worker_public', 'master_public' }
+  types:
+    - Ingress
